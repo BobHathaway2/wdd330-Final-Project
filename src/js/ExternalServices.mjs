@@ -1,7 +1,7 @@
 export function readBuoyData(buoy) {
 
-    // fetch("https://www.ndbc.noaa.gov/data/realtime2/41002.txt")
     let dataArray = [];
+    // fetch("https://www.ndbc.noaa.gov/data/realtime2/41002.txt")
     fetch("/lastData/41002.txt")
     .then(response => response.text()) 
     .then(bsvString => {

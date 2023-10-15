@@ -28,11 +28,3 @@ export function getBuoyInfo(buoy) {
         console.log(dataArray);
     });
   }
-}
-let buoy = [
-  {"buoy": "NE Extension", "longitude": -23, "latitude": 12},
-  {"buoy": "SLC", "longitude":  40.044502, "latitude": 111.890},
-  {"buoy": "NYC", "longitude": -74.020219, "latitude": 40.578912},
-  {"buoy": "NYC", "longitude": -73.992833, "latitude": 40.634345},
-  {"buoy": "NYC", "longitude": -74.120332, "latitude": 40.484633}
-];
