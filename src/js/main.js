@@ -1,4 +1,6 @@
 // Initialize and add the map
+import { getBuoyInfo } from "./utils.mjs";
+
 let map;
 
 async function initMap() {
@@ -25,3 +27,4 @@ async function initMap() {
 }
 
 initMap();
+getBuoyInfo(41002);
