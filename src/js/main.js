@@ -3,7 +3,7 @@ let map;
 
 async function initMap() {
   // The location of Buoy 41002
-  const position = { lat: -31.759, lng: -74.936 };
+  const position = { lat: 31.759, lng: -74.936 };
   // Request needed libraries.
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
