@@ -1,5 +1,5 @@
 // Initialize and add the map
-import { getBuoyInfo } from "./utils.mjs";
+import { readBuoyData } from "./ExternalServices.mjs";
 
 let map;
 
@@ -27,4 +27,4 @@ async function initMap() {
 }
 
 initMap();
-getBuoyInfo(41002);
+readBuoyData(41002);
