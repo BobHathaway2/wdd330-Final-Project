@@ -51,8 +51,8 @@ async function initCanvas() {
         for (let i=0; i< stations.length; i++) {
           let lat = parseFloat((stations[i].getAttribute('lat')));
           let lon = parseFloat((stations[i].getAttribute('lon')));
-          let canvasY = 180 + lat;
-          let canvasX = 360 + lon;
+          let canvasY = 180 + (2*lat);
+          let canvasX = 360 + (2*lon);
           ctx.beginPath();
           ctx.arc(canvasX, canvasY, 1, 0, 2 * Math.PI);
           ctx.stroke();
