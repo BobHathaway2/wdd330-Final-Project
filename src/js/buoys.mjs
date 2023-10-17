@@ -6,13 +6,13 @@ export default class Buoy {
         this.name = name;
         // this.data = [];
     } 
-    // async init() {
-    //     try {
-    //         this.data = await this.getData(this.id);
-    //     } catch (error) {
-    //         console.error("Error fetching buoy data:", error);
-    //         this.data = [];
-    //     }
+    async init() {
+        try {
+            this.data = await this.getData(this.id);
+        } catch (error) {
+            console.error("Error fetching buoy data:", error);
+            this.data = [];
+        }
     }
 
     // getData(id) {
