@@ -1,4 +1,4 @@
-import { buoysToCanvas } from "./canvas.mjs";
+import { putOnCanvas } from "./canvas.mjs";
 
 export default class Buoy {
     constructor (id, lat, lon, name) {
@@ -8,9 +8,9 @@ export default class Buoy {
         this.name = name;
         this.lastUpdate = new Date();
         this.init(lat,lon, 1)
-    } 
+    }
     async init(lat, lon, size) {
-        buoysToCanvas(lat, lon, size)
+        putOnCanvas(lat, lon, size)
     }
 }
         // ctx.beginPath();
