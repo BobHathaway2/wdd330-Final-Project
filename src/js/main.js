@@ -1,6 +1,6 @@
 // Initialize and add the map
 import {loadBuoys} from "./ExternalServices.mjs";
-import { initCanvas } from "./canvas.mjs";
+import { initCanvas , canvasMajorCities} from "./canvas.mjs";
 let map;
 
 async function initMap() {
@@ -28,3 +28,4 @@ async function initMap() {
 // initMap();
 initCanvas();
 loadBuoys();
+canvasMajorCities();
