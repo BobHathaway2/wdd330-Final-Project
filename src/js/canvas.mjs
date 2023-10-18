@@ -44,7 +44,9 @@ function handleclick(event){
         console.log(y);
         let closestStation = findAnythingClose(x,y, xoffset, yoffset,scalefactor).id;
         if (closestStation) {
-            window.open("https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation);
+            let stationURL = "https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation;
+            let newwindow=window.open(stationURL,'station','height=400,width=300', 'top=40', 'left=40');
+            if (window.focus) {newwindow.focus()}
         }
     }
 
