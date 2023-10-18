@@ -1,19 +1,30 @@
+import { buoysToCanvas } from "./canvas.mjs";
+
 export default class Buoy {
     constructor (id, lat, lon, name) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
         this.name = name;
-        // this.data = [];
+        this.lastUpdate = new Date();
+        this.init(lat,lon, 1)
     } 
-    async init() {
-        try {
-            this.data = await this.getData(this.id);
-        } catch (error) {
-            console.error("Error fetching buoy data:", error);
-            this.data = [];
-        }
+    async init(lat, lon, size) {
+        buoysToCanvas(lat, lon, size)
     }
+}
+        // ctx.beginPath();
+        // ctx.arc(100, 75, 1, 0, 2 * Math.PI);
+        // ctx.stroke();
+    //   }
+      
+    //     try {
+    //         this.data = await this.getData(this.id);
+    //     } catch (error) {
+    //         console.error("Error fetching buoy data:", error);
+    //         this.data = [];
+    //     }
+    // }
 
     // getData(id) {
     //     const response = await fetch("/lastData/${id}");
