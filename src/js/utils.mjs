@@ -23,3 +23,12 @@ export function getBuoyLocation () {
       .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
       .then(data => console.log(data));
 }
+
+// retrieve data from localstorage
+export function getLocalStorage(key) {
+  return JSON.parse(localStorage.getItem(key));
+}
+// save data to local storage
+export function setLocalStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}

@@ -7,10 +7,13 @@ ctx.font = "8px Times";
 let xoffset = 360;
 let yoffset = 180;
 let scalefactor = 2;
+let latCenter = 0;
+let lonCenter = 0;
 
 export function initCanvas(){
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0,0,720, 360)
+    draw_wind(ctx, 200, 200, 50, 275, "red");
 }
 
 export function canvasMajorCities() {
@@ -52,18 +55,44 @@ function handleclick(event){
 
 }
 
-canvas.addEventListener('click', handleclick, false);
-//     let closestStation = new Buoy;
-//     const rect = canvas.getBoundingClientRect();
-//     var x = event.pageX - rect.left;
-//     var y = event.pageY - rect.top;
-//     if (x > 0 && y > 0) {
-//         console.log(x);
-//         console.log(y);
-//         let closestStation = findAnythingClose(x,y, xoffset, yoffset,scalefactor).id;
-//         if (closestStation) {
-//             alert(closestStation.id);
 
-//         }
-//     }
-// }, false);
+function lineToAngle(ctx, x1, y1, length, angle) {
+    angle = (angle - 90) * Math.PI / 180;
+    var x2 = x1 + length * Math.cos(angle),
+      y2 = y1 + length * Math.sin(angle);
+  
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.fill();
+  
+    return {
+      x: x2,
+      y: y2
+    };
+  }
+  
+  function draw_arrow(ctx, x1, y1, length, angle) {
+    var pos = lineToAngle(ctx, x1, y1, length, angle);
+    lineToAngle(ctx, pos.x, pos.y, length/5, angle - 150);
+    lineToAngle(ctx, pos.x, pos.y, length/5, angle + 150);
+  }
+  function latToY(lat) {
+    let canvasY = yoffset - (lat * scalefactor);
+    return canvasY;
+  }
+
+  function lonToX(lon) {
+    let canvasX = xoffset + (lon * scalefactor);
+    return canvasX;
+  }
+  
+  export function draw_wind(lat, lon, length, azm, color="black") {
+    let x = lonToX(lon);
+    let y = latToY(lat);
+    var pos = draw_arrow(ctx, x, y, length, azm);
+  
+    ctx.strokeStyle = color;
+  }
+canvas.addEventListener('click', handleclick, false);

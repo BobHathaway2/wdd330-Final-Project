@@ -1,25 +1,29 @@
 import Buoy from "./buoy.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 let buoys = [];
 
-export function readBuoyData(buoy) {
 
-    let dataArray = [];
-    // fetch("https://www.ndbc.noaa.gov/data/realtime2/"+ buoy + ".txt")
-    fetch("/lastData/41002.txt")
-    .then(response => response.text()) 
-    .then(bsvString => {
-        const rows = bsvString.split('\n');
-        for (let row of rows) {
-            dataArray.push(row.split(/[ ]+/));
-        }
+// this was splitting data out
+// export function readBuoyData(buoy) {
 
-        console.log(dataArray);
-    });
-}
+//     let dataArray = [];
+//     // fetch("https://www.ndbc.noaa.gov/data/realtime2/"+ buoy + ".txt")
+//     fetch("../src/public/lastData/41002.txt")
+//     .then(response => response.text()) 
+//     .then(bsvString => {
+//         const rows = bsvString.split('\n');
+//         for (let row of rows) {
+//             dataArray.push(row.split(/[ ]+/));
+//         }
+
+//         console.log(dataArray);
+//     });
+// }
 
 export function loadBuoys() {
     fetch("https://www.ndbc.noaa.gov/activestations.xml")
+    // fetch("https://www.ndbc.noaa.gov/data/realtime2/")
     // fetch("src/public/lastData/activestations.xml")
     .then(response => response.text())
     .then(data => {
@@ -35,7 +39,7 @@ export function loadBuoys() {
                 let lat = parseFloat((stations[i].getAttribute('lat')));
                 let lon = parseFloat((stations[i].getAttribute('lon')));
                 let name = stations[i].getAttribute('name');
-                let thisBuoy = new Buoy(id, lat, lon, name);
+                let thisBuoy = new Buoy(id, lat, lon);
                 buoys.push(thisBuoy);
             }
         }
