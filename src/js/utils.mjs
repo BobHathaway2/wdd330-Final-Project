@@ -21,7 +21,7 @@ export function getBuoyLocation () {
   return fetch("/lastData/activestations.xml")
       .then(response => response.text())
       .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-      .then(data => console.log(data));
+      // .then(data => console.log(data));
 }
 
 // retrieve data from localstorage

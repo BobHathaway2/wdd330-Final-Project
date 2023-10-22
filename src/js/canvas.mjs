@@ -13,7 +13,6 @@ let lonCenter = 0;
 export function initCanvas(){
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0,0,720, 360)
-    draw_wind(ctx, 200, 200, 50, 275, "red");
 }
 
 export function canvasMajorCities() {
@@ -43,8 +42,8 @@ function handleclick(event){
     var x = event.pageX - rect.left;
     var y = event.pageY - rect.top;
     if (x > 0 && y > 0) {
-        console.log(x);
-        console.log(y);
+        // console.log(x);
+        // console.log(y);
         let closestStation = findAnythingClose(x,y, xoffset, yoffset,scalefactor).id;
         if (closestStation) {
             let stationURL = "https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation;
