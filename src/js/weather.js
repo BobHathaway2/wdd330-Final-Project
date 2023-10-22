@@ -21,10 +21,4 @@ export function getWinds() {
     }
 }
 
-export function mapStations() {
-    for (var i = 1; i < localStorage.length -1; i++) {
-        let data = getLocalStorage(localStorage.key(i));
-        let thisBuoy = JSON.parse(data);
-        putOnCanvas(thisBuoy.lat, thisBuoy.lon);
-    }
-}
+

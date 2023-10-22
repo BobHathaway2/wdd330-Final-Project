@@ -1,5 +1,6 @@
 import { findAnythingClose } from "./ExternalServices.mjs";
 import Buoy from "./buoy.mjs";
+import { getLocalStorage } from "./utils.mjs";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -95,3 +96,11 @@ function lineToAngle(ctx, x1, y1, length, angle) {
     ctx.strokeStyle = color;
   }
 canvas.addEventListener('click', handleclick, false);
+
+export function canvasStations() {
+  for (var i = 1; i < localStorage.length -1; i++) {
+      let data = getLocalStorage(localStorage.key(i));
+      let thisBuoy = JSON.parse(data);
+      putOnCanvas(thisBuoy.lat, thisBuoy.lon);
+  }
+}

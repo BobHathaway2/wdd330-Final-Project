@@ -1,12 +1,11 @@
 import Buoy from "./buoy.mjs";
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
-
+import { canvasStations } from "./canvas.mjs";
 let buoys = [];
 
 export function loadBuoys() {
-    if (localStorage.length == 0) {
+    try {
         fetch("https://www.ndbc.noaa.gov/activestations.xml")
-        // fetch("https://www.ndbc.noaa.gov/data/realtime2/")
         // fetch("src/public/lastData/activestations.xml")
         .then(response => response.text())
         .then(data => {
@@ -26,18 +25,22 @@ export function loadBuoys() {
                     buoys.push(thisBuoy);
                 }
             }
+            canvasStations();
         })
-    } else {
-        for (let k = 0; k < localStorage.length - 1; k++) {
-                let buoy = localStorage.key(k)
-                // console.log(k + ": " + localStorage.key(k));
-                let data = getLocalStorage(buoy);
-                let buoyData = JSON.parse(data);
-                let thisBuoy = new Buoy(buoy, buoyData.lat, buoyData.lon);
-                buoys.push(thisBuoy);
-        
-        }
+    } catch(error) {
+        console.log('Unable to fetch NDBC station list', error)
     }
+
+    //     for (let k = 0; k < localStorage.length - 1; k++) {
+    //             let buoy = localStorage.key(k)
+    //             // console.log(k + ": " + localStorage.key(k));
+    //             let data = getLocalStorage(buoy);
+    //             let buoyData = JSON.parse(data);
+    //             let thisBuoy = new Buoy(buoy, buoyData.lat, buoyData.lon);
+    //             buoys.push(thisBuoy);
+        
+    //     }
+    // }
 }
 
 export function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {

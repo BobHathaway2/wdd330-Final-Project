@@ -1,4 +1,5 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { canvasStations } from "./canvas.mjs";
 
 export default class Buoy {
     constructor (id, lat, lon) {
@@ -14,33 +15,38 @@ export default class Buoy {
 }
 export function readBuoyData(id, lat, lon) {
 
-    if (localStorage.length == 0) {
+    if (getLocalStorage('buoys') != 'true')  {
         let dataArray = [];
-        fetch("https://www.ndbc.noaa.gov/data/realtime2/"+ id + ".txt")
-        // fetch("../src/public/lastData/41002.txt")
-        .then(response => response.text()) 
-        .then(str => {
-            var rows = str.split('\n');
-            var cells = []
-            cells.push(rows[0].split(/\s+/));
-            cells.push(rows[2].split(/\s+/));
-            let buoyData = '{';
-            for (let i = 0; i < cells[1].length - 1; i++) { 
-                buoyData = buoyData + '"' + cells[0][i] + '":"' + cells[1][i] + '",';
-            }
-            buoyData = buoyData + '"' + cells[0][cells.length-1] + '":"' + cells[1][cells.length-1] + '"}';
-            buoyData = buoyData.replace("#", "");
-            let buoyObject = JSON.parse(buoyData);
-            let lastUpdateUTC = new Date(Date.UTC(buoyObject.YY, buoyObject.MM - 1, buoyObject.DD, buoyObject.hh, buoyObject.mm, '00'));
-            let age = new Date() - lastUpdateUTC;
-            let threeHours = 3*1000*60*60;
-            if (age < threeHours) {   // only save new data
-                buoyObject.lat = lat;
-                buoyObject.lon = lon;
-                buoyObject.lastRead = new Date();
-                setLocalStorage(id, JSON.stringify(buoyObject));
-            }
+        try {
+            const response = fetch("https://www.ndbc.noaa.gov/data/realtime2/"+ id + ".txt")
+            
+            // fetch("../src/public/lastData/41002.txt")
+            .then(response => response.text()) 
+            .then(str => {
+                var rows = str.split('\n');
+                var cells = []
+                cells.push(rows[0].split(/\s+/));
+                cells.push(rows[2].split(/\s+/));
+                let buoyData = '{';
+                for (let i = 0; i < cells[1].length - 1; i++) { 
+                    buoyData = buoyData + '"' + cells[0][i] + '":"' + cells[1][i] + '",';
+                }
+                buoyData = buoyData + '"' + cells[0][cells.length-1] + '":"' + cells[1][cells.length-1] + '"}';
+                buoyData = buoyData.replace("#", "");
+                let buoyObject = JSON.parse(buoyData);
+                let lastUpdateUTC = new Date(Date.UTC(buoyObject.YY, buoyObject.MM - 1, buoyObject.DD, buoyObject.hh, buoyObject.mm, '00'));
+                let age = new Date() - lastUpdateUTC;
+                let threeHours = 3*1000*60*60;
+                if (age < threeHours) {   // only save new data
+                    buoyObject.lat = lat;
+                    buoyObject.lon = lon;
+                    buoyObject.lastRead = new Date();
+                    setLocalStorage('buoys', 'true');
+                    setLocalStorage(id, JSON.stringify(buoyObject));
+                }
+                canvasStations();
         })
+    } catch {} 
  
     // } else {
     //     let data = getLocalStorage(id);
