@@ -1,4 +1,4 @@
-import { findAnythingClose, getLocalStorage } from "./utils.mjs";
+import { centerOnClickParameters, findAnythingClose} from "./utils.mjs";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -8,20 +8,23 @@ let yoffset = 180;
 let scalefactor = 2;
 let latCenter = 0;
 let lonCenter = 0;
+let canvasX = 720;
+let canvasY = 360;
+canvas.addEventListener('click', handleclick, false);
 
 export function initCanvas(){
     ctx.fillStyle = "lightblue";
-    ctx.fillRect(0,0,720, 360)
+    ctx.fillRect(0, 0, canvasX, canvasY);
 }
 
 export function canvasMajorCities() {
-    putOnCanvas(40.758701, -111.876183, 1, "SLC", "white");
-    putOnCanvas(33.9438, -118.4091, 1, "LAX", "white");
-    putOnCanvas(40.7128, -73.935242, 1, "NYC", "white");
-    putOnCanvas(47.6061, -122.3328, 1, "SEA", "white");
-    putOnCanvas(25.7951, -80.2795, 1, "MIA", "white");
-    putOnCanvas(25.7951, -157.8581, 1, "HNL", "white");
-    putOnCanvas(61.1771, -149.9907, 1, "ANC", "white");
+    putOnCanvas(40.758701, -111.876183, 1, "SLC", "black");
+    putOnCanvas(33.9438, -118.4091, 1, "LAX", "black");
+    putOnCanvas(40.7128, -73.935242, 1, "NYC", "black");
+    putOnCanvas(47.6061, -122.3328, 1, "SEA", "black");
+    putOnCanvas(25.7951, -80.2795, 1, "MIA", "black");
+    putOnCanvas(25.7951, -157.8581, 1, "HNL", "black");
+    putOnCanvas(61.1771, -149.9907, 1, "ANC",   "black");
 
 }
 
@@ -40,16 +43,18 @@ function handleclick(event){
     const rect = canvas.getBoundingClientRect();
     var x = event.pageX - rect.left;
     var y = event.pageY - rect.top;
+    let closestStation = "";
     if (x > 0 && y > 0) {
         // console.log(x);
         // console.log(y);
-        let closestStation = findAnythingClose(x,y, xoffset, yoffset,scalefactor).id;
+        closestStation = findAnythingClose(x,y, xoffset, yoffset,scalefactor).id;
         if (closestStation) {
             let stationURL = "https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation;
             let newwindow=window.open(stationURL,'station','height=400,width=300', 'top=40', 'left=40');
             if (window.focus) {newwindow.focus()}
         }
     }
+    centerOnClickParameters(x, y, rect.left, rect.top, scalefactor, latCenter, lonCenter)
 
 }
 
@@ -104,4 +109,3 @@ function lineToAngle(ctx, x1, y1, length, angle) {
     ctx.strokeStyle = color;
   }
 
-canvas.addEventListener('click', handleclick, false);
