@@ -10,7 +10,6 @@ let latCenter = 0;
 let lonCenter = 0;
 let canvasX = 720;
 let canvasY = 360;
-canvas.addEventListener('click', handleclick, false);
 
 export function initCanvas(){
     ctx.fillStyle = "lightblue";
@@ -39,7 +38,7 @@ export function putOnCanvas(lat, lon, size=1, text="", color="black") {
     ctx.fill();
 }
 
-function handleclick(event){
+export function handleclick(event){
     const rect = canvas.getBoundingClientRect();
     var x = event.pageX - rect.left;
     var y = event.pageY - rect.top;
