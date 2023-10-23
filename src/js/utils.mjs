@@ -13,16 +13,6 @@ export function showPosition(position) {
   "<br>Longitude: " + position.coords.longitude;
 }
 
-export function loadBuoys() {
-
-}
-
-export function getBuoyLocation () {
-  return fetch("/lastData/activestations.xml")
-      .then(response => response.text())
-      .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-      // .then(data => console.log(data));
-}
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
@@ -35,16 +25,18 @@ export function setLocalStorage(key, data) {
 
 export function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {
   let closestDistance = 50000;
-  let closestStation = new Buoy;
-  for (let buoy of buoys) {
-      let xofbuoy = xoffset + (buoy.lon * scalefactor);
-      let yofbuoy = yoffset - (buoy.lat * scalefactor);
+  let closestStation;
+  let buoys = getLocalStorage("buoys");
+  buoys.forEach((buoy) => {
+      let thisBuoy = getLocalStorage(buoy);
+      let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
+      let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
       let xdistance = Math.sqrt(Math.pow((xofbuoy - xclicked), 2) + Math.pow((yofbuoy - yclicked),2));
-      if (xdistance < 5 && xdistance < closestDistance) {
+      if (xdistance < 50 && xdistance < closestDistance) {
           closestDistance = xdistance;
           closestStation = buoy;
-      } 
-  }
+      }
+    })
   return closestStation;
 }
 
@@ -66,9 +58,3 @@ export function cleanData(buoyData) {
   }
   return buoyData;
 }
-
-// const keys = Object.keys(yourObject);
-// for (let i = 0; i < keys.length; i++) {
-//   const key = keys[i];
-//   console.log(key, yourObject[key]);
-// }
