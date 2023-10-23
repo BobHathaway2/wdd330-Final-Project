@@ -1,60 +1,71 @@
-import Buoy from "./buoy.mjs";
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
-import { canvasStations } from "./canvas.mjs";
+import { cleanData, getLocalStorage, setLocalStorage } from "./utils.mjs";
 let buoys = [];
 
-export function loadBuoys() {
+export function loadBuoysToIS() {
     try {
-        fetch("https://www.ndbc.noaa.gov/activestations.xml")
-        // fetch("src/public/lastData/activestations.xml")
-        .then(response => response.text())
-        .then(data => {
-            let parser = new DOMParser();
-            let xml = parser.parseFromString(data,"application/xml");
-            // console.log(xml);
-            let stations = xml.getElementsByTagName('station');
-            for (let i = 0; i < stations.length; i++) {
-                let type = stations[i].getAttribute('type');
-                let owner = stations[i].getAttribute('owner');
-                if (type == "buoy") {
-                    let id = stations[i].getAttribute('id');
-                    let lat = parseFloat((stations[i].getAttribute('lat')));
-                    let lon = parseFloat((stations[i].getAttribute('lon')));
-                    let name = stations[i].getAttribute('name');
-                    let thisBuoy = new Buoy(id, lat, lon);
-                    buoys.push(thisBuoy);
+        if (!getLocalStorage("buoys")) {
+            fetch("https://www.ndbc.noaa.gov/activestations.xml")
+            // fetch("src/public/lastData/activestations.xml")
+            .then(response => response.text())
+            .then(data => {
+                let parser = new DOMParser();
+                let xml = parser.parseFromString(data,"application/xml");
+                // console.log(xml);
+                let stations = xml.getElementsByTagName('station');
+                for (let i = 0; i < stations.length; i++) {
+                    let type = stations[i].getAttribute('type');
+                    if (type == "buoy") {
+                        let id = stations[i].getAttribute('id');
+                        let lat = parseFloat((stations[i].getAttribute('lat')));
+                        let lon = parseFloat((stations[i].getAttribute('lon')));
+                        getBuoyData(id, lat, lon)
+                    }
                 }
-            }
-            canvasStations();
-        })
+            })
+        
+        }
     } catch(error) {
         console.log('Unable to fetch NDBC station list', error)
     }
-
-    //     for (let k = 0; k < localStorage.length - 1; k++) {
-    //             let buoy = localStorage.key(k)
-    //             // console.log(k + ": " + localStorage.key(k));
-    //             let data = getLocalStorage(buoy);
-    //             let buoyData = JSON.parse(data);
-    //             let thisBuoy = new Buoy(buoy, buoyData.lat, buoyData.lon);
-    //             buoys.push(thisBuoy);
-        
-    //     }
-    // }
 }
 
-export function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {
-    let closestDistance = 50000;
-    let closestStation = new Buoy;
-    for (let buoy of buoys) {
-        let xofbuoy = xoffset + (buoy.lon * scalefactor);
-        let yofbuoy = yoffset - (buoy.lat * scalefactor);
-        let xdistance = Math.sqrt(Math.pow((xofbuoy - xclicked), 2) + Math.pow((yofbuoy - yclicked),2));
-        if (xdistance < 5 && xdistance < closestDistance) {
-            closestDistance = xdistance;
-            closestStation = buoy;
-        } 
-    }
-    return closestStation;
-}
 
+export function getBuoyData(id, lat, lon) {
+
+    try {
+        fetch("https://www.ndbc.noaa.gov/data/realtime2/"+ id + ".txt")
+        // fetch("../src/public/lastData/41002.txt")
+        .then(response => response.text())
+        .then(str => {
+            var rows = str.split('\n');
+            var cells = []
+            cells.push(rows[0].split(/\s+/));
+            cells.push(rows[2].split(/\s+/));
+            let buoyData = '{';
+            for (let i = 0; i < cells[1].length - 1; i++) { 
+                buoyData = buoyData + '"' + cells[0][i] + '":"' + cells[1][i] + '",';
+            }
+            buoyData = buoyData + '"' + cells[0][cells.length-1] + '":"' + cells[1][cells.length-1] + '"}';
+            buoyData = buoyData.replace("#", "");
+            let buoyObject = JSON.parse(buoyData);
+            let lastUpdateUTC = new Date(Date.UTC(buoyObject.YY, buoyObject.MM - 1, buoyObject.DD, buoyObject.hh, buoyObject.mm, '00'));
+            let age = new Date() - lastUpdateUTC;
+            let threeHours = 10*1000*60*60;
+            if (age < threeHours) {   // only save new data
+                if (getLocalStorage('buoys')) {
+                    buoys = getLocalStorage('buoys');
+                }
+                buoys.push(id);
+                setLocalStorage("buoys", buoys);
+                let newBuoyObject = cleanData(buoyObject);
+                newBuoyObject.lat = Number(lat);
+                newBuoyObject.lon = Number(lon);
+                newBuoyObject.lastRead = new Date();
+                setLocalStorage(id, newBuoyObject);
+            }
+        })
+
+    } catch {
+        console.log('Unable to fetch NDBC buoy data: ', error)
+    } 
+}

@@ -1,8 +1,8 @@
-import {loadBuoys} from "./ExternalServices.mjs";
+import {loadBuoysToIS} from "./ExternalServices.mjs";
 import { initCanvas , canvasMajorCities} from "./canvas.mjs";
+import { drawWinds } from "./weather.js";
 
-let map;
-// initMap();
 initCanvas();
-loadBuoys();
+loadBuoysToIS();
 canvasMajorCities();
+drawWinds();
