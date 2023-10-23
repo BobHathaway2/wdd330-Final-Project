@@ -1,6 +1,4 @@
-import { findAnythingClose } from "./ExternalServices.mjs";
-import Buoy from "./buoy.mjs";
-import { getLocalStorage } from "./utils.mjs";
+import { findAnythingClose, getLocalStorage } from "./utils.mjs";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -75,8 +73,8 @@ function lineToAngle(ctx, x1, y1, length, angle) {
   
   function draw_arrow(ctx, x1, y1, length, angle) {
     var pos = lineToAngle(ctx, x1, y1, length, angle);
-    lineToAngle(ctx, pos.x, pos.y, length/5, angle - 150);
-    lineToAngle(ctx, pos.x, pos.y, length/5, angle + 150);
+    lineToAngle(ctx, pos.x, pos.y, length/5, angle - 135);
+    lineToAngle(ctx, pos.x, pos.y, length/5, angle + 135);
   }
   function latToY(lat) {
     let canvasY = yoffset - (lat * scalefactor);
@@ -91,16 +89,8 @@ function lineToAngle(ctx, x1, y1, length, angle) {
   export function draw_wind(lat, lon, length, azm, color="black") {
     let x = lonToX(lon);
     let y = latToY(lat);
-    var pos = draw_arrow(ctx, x, y, length, azm);
+    var pos = draw_arrow(ctx, x, y, length*2, azm);
   
     ctx.strokeStyle = color;
   }
 canvas.addEventListener('click', handleclick, false);
-
-export function canvasStations() {
-  for (var i = 1; i < localStorage.length -1; i++) {
-      let data = getLocalStorage(localStorage.key(i));
-      let thisBuoy = JSON.parse(data);
-      putOnCanvas(thisBuoy.lat, thisBuoy.lon);
-  }
-}

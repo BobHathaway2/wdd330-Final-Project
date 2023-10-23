@@ -1,24 +1,24 @@
-import { draw_wind, putOnCanvas } from "./canvas.mjs";
+import { draw_wind } from "./canvas.mjs";
 import { getLocalStorage } from "./utils.mjs";
 
-export function getWinds() {
-    for (var i = 1; i < localStorage.length -1; i++) {
-        let data = getLocalStorage(localStorage.key(i));
-        let thisBuoy = JSON.parse(data);
+export function drawWinds() {
+    let buoys = getLocalStorage("buoys");
+    buoys.forEach((buoy) => {
+        let thisBuoy = getLocalStorage(buoy);
         let airTempColor = "black";
-        if (thisBuoy.ATMP != 'MM') {
-            if (thisBuoy.ATMP< 60) {
+        if (thisBuoy.hasOwnProperty('ATMP') && thisBuoy.hasOwnProperty('WDIR') && thisBuoy.hasOwnProperty('WSPD')) {
+            if (thisBuoy.ATMP < 16) {
                     airTempColor = 'blue'
             } else { 
-                if (thisBuoy.ATMP< 80) {
+                if (thisBuoy.ATMP < 27) {
                     airTempColor = 'yellow'
                 } else {
                     airTempColor = 'red'
                 }
             }
         }
-        draw_wind(thisBuoy.lat, thisBuoy.lon, thisBuoy.WDSP,  thisBuoy.WDIR, airTempColor)
-    }
+        draw_wind(thisBuoy.lat, thisBuoy.lon, thisBuoy.WSPD,  thisBuoy.WDIR, airTempColor)
+    })
 }
 
 
