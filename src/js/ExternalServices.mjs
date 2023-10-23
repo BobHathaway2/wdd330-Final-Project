@@ -23,8 +23,11 @@ export function loadBuoysToIS() {
                     }
                 }
             })
+            let lastUpdate = new Date().toLocaleString('en-US');
+            setLocalStorage("lastUpdate", lastUpdate)
         }
-        updateElement.innerHTML = "Last Updated: " + new Date();
+        let storedLastUpdate = getLocalStorage("lastUpdate")
+        updateElement.innerHTML = "Last Updated: " + storedLastUpdate;
     } catch(error) {
         console.log('Unable to fetch NDBC station list', error)
     }

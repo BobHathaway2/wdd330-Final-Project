@@ -1,17 +1,54 @@
-/* 
- * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
- #map {
-    height: 100%;
-  }
-  
-  /* 
-   * Optional: Makes the sample page fill the window. 
-   */
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+:root {
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  /* colors */
+  --primary-color: #03045e;
+  --secondary-color: #0077b6;
+  --tertiary-color: #00B4D8;
+  --light-grey: #d0d0d0;
+  --dark-grey: #303030;
+
+  /* sizes */
+  --font-base: 18px;
+  --small-font: 0.8em;
+  --large-font: 1.2em;
+}
+* {
+  box-sizing: border-box;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  background-color: var(--light-grey);
+}
+.logo {
+  line-height: 40px;
+  width: 245px;
+  overflow: hidden;
+  display: flex;
+  font-size: 30px;
+  text-align: right;
+  font-family: var(--font-headline);
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--primary-color);
+  margin-top: 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  ;
+}
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+h1 {
+  margin: 1%;
+  text-align: center;
+}
+#canvas {
+  border-radius: 1%;
+  display: flex;
+  justify-content: space-between;
+  border: 10px solid var(--primary-color);
+}
