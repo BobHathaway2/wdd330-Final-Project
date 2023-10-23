@@ -25,7 +25,7 @@ export function setLocalStorage(key, data) {
 
 export function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {
   let closestDistance = 50000;
-  let closestStation;
+  let closestStation = "";
   let buoys = getLocalStorage("buoys");
   buoys.forEach((buoy) => {
       let thisBuoy = getLocalStorage(buoy);
@@ -57,4 +57,8 @@ export function cleanData(buoyData) {
     }
   }
   return buoyData;
+}
+
+export function centerOnClickParameters (){
+
 }
