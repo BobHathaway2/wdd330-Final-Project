@@ -76,6 +76,7 @@ function lineToAngle(ctx, x1, y1, length, angle) {
     lineToAngle(ctx, pos.x, pos.y, length/5, angle - 135);
     lineToAngle(ctx, pos.x, pos.y, length/5, angle + 135);
   }
+
   function latToY(lat) {
     let canvasY = yoffset - (lat * scalefactor);
     return canvasY;
@@ -93,4 +94,14 @@ function lineToAngle(ctx, x1, y1, length, angle) {
   
     ctx.strokeStyle = color;
   }
+
+  export function draw_wave(lat, lon, height, color="black") {
+    let x = lonToX(lon);
+    let y = latToY(lat);
+    height = height*5;
+    var pos = lineToAngle(ctx, x, y, height, 20);
+    lineToAngle(ctx, pos.x, pos.y, height, 160);
+    ctx.strokeStyle = color;
+  }
+
 canvas.addEventListener('click', handleclick, false);

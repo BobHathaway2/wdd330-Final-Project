@@ -1,4 +1,4 @@
-import { draw_wind } from "./canvas.mjs";
+import { draw_wind, draw_wave} from "./canvas.mjs";
 import { getLocalStorage } from "./utils.mjs";
 
 export function drawWinds() {
@@ -21,4 +21,23 @@ export function drawWinds() {
     })
 }
 
+export function drawWaves() {
+    let buoys = getLocalStorage("buoys");
+    buoys.forEach((buoy) => {
+        let thisBuoy = getLocalStorage(buoy);
+        let waterTempColor = "black";
+        if (thisBuoy.hasOwnProperty('WTMP') && thisBuoy.hasOwnProperty('WVHT')) {
+            if (thisBuoy.ATMP < 18) {
+                    waterTempColor = 'blue'
+            } else { 
+                if (thisBuoy.ATMP < 24) {
+                    waterTempColor = 'yellow'
+                } else {
+                    waterTempColor = 'red'
+                }
+            }
+        }
+        draw_wave(thisBuoy.lat, thisBuoy.lon, thisBuoy.WVHT, waterTempColor)
+    })
+}
 
