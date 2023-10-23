@@ -1,6 +1,7 @@
 import { cleanData, getLocalStorage, setLocalStorage } from "./utils.mjs";
 let buoys = [];
 
+let updateElement = document.getElementById("lastUpdate")
 export function loadBuoysToIS() {
     try {
         if (!getLocalStorage("buoys")) {
@@ -22,8 +23,8 @@ export function loadBuoysToIS() {
                     }
                 }
             })
-        
         }
+        updateElement.innerHTML = "Last Updated: " + new Date();
     } catch(error) {
         console.log('Unable to fetch NDBC station list', error)
     }
