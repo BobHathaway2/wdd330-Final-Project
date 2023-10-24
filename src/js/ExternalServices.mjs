@@ -66,6 +66,7 @@ export function getBuoyData(id, lat, lon) {
                 newBuoyObject.lat = Number(lat);
                 newBuoyObject.lon = Number(lon);
                 newBuoyObject.lastRead = new Date();
+                newBuoyObject.dataTime = lastUpdateUTC;
                 setLocalStorage(id, newBuoyObject);
             }
         })

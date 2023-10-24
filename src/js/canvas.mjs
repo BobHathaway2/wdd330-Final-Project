@@ -1,5 +1,6 @@
-import { getLocalStorage} from "./utils.mjs";
+import { buildInnerHtmlForPopup, getLocalStorage} from "./utils.mjs";
 
+const stationpopup = document.getElementById("station-data");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 ctx.font = "8px Times";
@@ -59,9 +60,10 @@ export function handleclick(event){
             }
         })
         if (closestStation) {
-          let stationURL = "https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation;
-          let newwindow=window.open(stationURL,'station','height=400,width=300', 'top=40', 'left=40');
-          if (window.focus) {newwindow.focus()}
+          
+          stationpopup.innerHTML = buildInnerHtmlForPopup(closestStation);
+          document.getElementById('station-popup').style.display='block';
+          document.getElementById('fade').style.display='block';
         }
     }
 }
@@ -117,21 +119,4 @@ function lineToAngle(ctx, x1, y1, length, angle) {
     var pos = lineToAngle(ctx, x, y, height, 20);
     lineToAngle(ctx, pos.x, pos.y, height, 160);
     ctx.strokeStyle = color;
-  }
-
-  function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {
-    let closestDistance = 50000;
-    let closestStation = "";
-    let buoys = getLocalStorage("buoys");
-    buoys.forEach((buoy) => {
-        let thisBuoy = getLocalStorage(buoy);
-        let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
-        let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
-        let xdistance = Math.sqrt(Math.pow((xofbuoy - xclicked), 2) + Math.pow((yofbuoy - yclicked),2));
-        if (xdistance < 50 && xdistance < closestDistance) {
-            closestDistance = xdistance;
-            closestStation = buoy;
-        }
-      })
-    return closestStation;
   }
