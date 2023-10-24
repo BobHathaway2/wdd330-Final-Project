@@ -23,22 +23,7 @@ export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-export function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {
-  let closestDistance = 50000;
-  let closestStation = "";
-  let buoys = getLocalStorage("buoys");
-  buoys.forEach((buoy) => {
-      let thisBuoy = getLocalStorage(buoy);
-      let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
-      let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
-      let xdistance = Math.sqrt(Math.pow((xofbuoy - xclicked), 2) + Math.pow((yofbuoy - yclicked),2));
-      if (xdistance < 50 && xdistance < closestDistance) {
-          closestDistance = xdistance;
-          closestStation = buoy;
-      }
-    })
-  return closestStation;
-}
+
 
 export function cleanData(buoyData) {
   let validFields = ['YY', 'MM', 'DD', 'hh', 'mm', 'lat', 'lon', 'WDIR', 'WSPD', 'WVHT', 'ATMP', 'WTMP'];

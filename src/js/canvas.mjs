@@ -1,4 +1,4 @@
-import { centerOnClickParameters, findAnythingClose} from "./utils.mjs";
+import { getLocalStorage} from "./utils.mjs";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -46,16 +46,27 @@ export function handleclick(event){
     if (x > 0 && y > 0) {
         // console.log(x);
         // console.log(y);
-        closestStation = findAnythingClose(x,y, xoffset, yoffset,scalefactor).id;
+        let closestDistance = 50000;
+        let buoys = getLocalStorage("buoys");
+        buoys.forEach((buoy) => {
+            let thisBuoy = getLocalStorage(buoy);
+            let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
+            let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
+            let xdistance = Math.sqrt(Math.pow((xofbuoy - x), 2) + Math.pow((yofbuoy - y),2));
+            if (xdistance < 50 && xdistance < closestDistance) {
+                closestDistance = xdistance;
+                closestStation = buoy;
+            }
+        })
         if (closestStation) {
-            let stationURL = "https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation;
-            let newwindow=window.open(stationURL,'station','height=400,width=300', 'top=40', 'left=40');
-            if (window.focus) {newwindow.focus()}
+          let stationURL = "https://www.ndbc.noaa.gov/station_page.php?station=" + closestStation;
+          let newwindow=window.open(stationURL,'station','height=400,width=300', 'top=40', 'left=40');
+          if (window.focus) {newwindow.focus()}
         }
     }
-    centerOnClickParameters(x, y, rect.left, rect.top, scalefactor, latCenter, lonCenter)
-
 }
+    // centerOnClickParameters(x, y, rect.left, rect.top, scalefactor, latCenter, lonCenter)
+
 
 
 function lineToAngle(ctx, x1, y1, length, angle) {
@@ -108,3 +119,19 @@ function lineToAngle(ctx, x1, y1, length, angle) {
     ctx.strokeStyle = color;
   }
 
+  function findAnythingClose(xclicked, yclicked, xoffset, yoffset, scalefactor) {
+    let closestDistance = 50000;
+    let closestStation = "";
+    let buoys = getLocalStorage("buoys");
+    buoys.forEach((buoy) => {
+        let thisBuoy = getLocalStorage(buoy);
+        let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
+        let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
+        let xdistance = Math.sqrt(Math.pow((xofbuoy - xclicked), 2) + Math.pow((yofbuoy - yclicked),2));
+        if (xdistance < 50 && xdistance < closestDistance) {
+            closestDistance = xdistance;
+            closestStation = buoy;
+        }
+      })
+    return closestStation;
+  }
