@@ -8,7 +8,15 @@
     <script type="module" src="./src/js/main.js"></script>
   </head>
   <body>
-    <h3>The Wind and the Waves</h3>
+    <header class="divider">
+      <div class="logo">
+        <img src="./src/public/images/TWW.png" alt="TWW image for logo" />
+      </div>
+      <div class="update">
+        <p id="lastUpdate">Last Update: </label>
+      </div>
+    </header>
+    <h1>The Wind and the Waves</h3>
     <canvas id="canvas" width="720" height="360"></canvas>
     <div class="container">
       <form>
@@ -18,7 +26,6 @@
         <label class="checkbox-inline">
           <input id="show-waves" type="checkbox" value="">Show Waves
         </label>
-        <label id="lastUpdate">Last Update: </label>
       </form>
     </div>
   </body>
