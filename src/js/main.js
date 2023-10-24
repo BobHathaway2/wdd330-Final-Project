@@ -1,4 +1,4 @@
-import {loadBuoysToIS} from "./ExternalServices.mjs";
+import {loadBuoysToIS, loadReportingBuoys} from "./ExternalServices.mjs";
 import { initCanvas , canvasMajorCities} from "./canvas.mjs";
 import { drawWaves, drawWinds } from "./weather.js";
 import {handleclick} from "./canvas.mjs"
@@ -9,6 +9,7 @@ let refresh = document.getElementById("refresh");
 let canvas = document.getElementById("canvas");
 
 function init () {
+  loadReportingBuoys();
   initCanvas();
   loadBuoysToIS();
   canvasMajorCities();

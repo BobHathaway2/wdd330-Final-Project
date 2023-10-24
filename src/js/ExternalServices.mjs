@@ -11,12 +11,13 @@ export function loadBuoysToIS() {
             .then(data => {
                 let parser = new DOMParser();
                 let xml = parser.parseFromString(data,"application/xml");
-                // console.log(xml);
                 let stations = xml.getElementsByTagName('station');
+                let reportingStations = getLocalStorage("reportingStations");
                 for (let i = 0; i < stations.length; i++) {
                     let type = stations[i].getAttribute('type');
-                    if (type == "buoy") {
-                        let id = stations[i].getAttribute('id');
+                    let id = stations[i].getAttribute('id');
+                    if (type == "buoy" && reportingStations.includes(id)) {
+                    // if (reportingStations.includes(id)) {
                         let lat = parseFloat((stations[i].getAttribute('lat')));
                         let lon = parseFloat((stations[i].getAttribute('lon')));
                         getBuoyData(id, lat, lon)
@@ -72,4 +73,24 @@ export function getBuoyData(id, lat, lon) {
     } catch {
         console.log('Unable to fetch NDBC buoy data: ', error)
     } 
+}
+
+export function loadReportingBuoys() {
+    try {
+        let stations = [];
+        fetch("https://www.ndbc.noaa.gov/data/latest_obs/latest_obs.txt")
+        .then(response => response.text())
+        .then(str => {
+            var rows = str.split('\n');
+            for (let i = 2; i < rows.length; i++) {
+                var cells = []
+                cells.push(rows[i].split(/\s+/))
+                stations.push(cells[0][0]);
+            }
+            setLocalStorage("reportingStations", stations)
+        })
+    }
+    catch(error) {
+        console.log('Unable to fetch NDBC reporting stations list', error)
+    }
 }
