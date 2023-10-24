@@ -10,7 +10,7 @@
   <body>
     <header class="divider">
       <div class="logo">
-        <img src="./src/public/images/TWW.png" alt="TWW image for logo" />
+        <img src="./tww.png" alt="TWW image for logo" />
       </div>
       <div class="update">
         <p id="lastUpdate">Last Update: </label>
@@ -32,7 +32,7 @@
           <div class="tooltip">
             <input id="show-winds" type="checkbox" value="">Show Winds
             <span class = "tooltiptext">
-              Shows the wind as a directional arrow. Length of arrow indicates relative wind strength.
+              Clicking this button shows the wind represented as a directional arrow. Length of arrow indicates relative wind strength.
               Color of arrow indicates air temperature. Blue less than 16C/61F, Yellow 16C-27C/81F, Red above 27C/81F 
             </span>
           </div>
@@ -41,8 +41,8 @@
           <div class="tooltip">
             <input id="show-waves" type="checkbox" value="">Show Waves
             <span class = "tooltiptext">
-              Shows the wave height as a caret (^). Size of caret indicates relative wave height.
-              Color of caret indicates water temperature. Blue less than 18C/64F, Yellow 18C-24C/75F, Red above 24C/75F  
+              Clicking this box shows the wave heights as a caret (^) on the map. The size of caret indicates relative wave height.
+              The color of caret indicates water temperature - Blue less than 18C/64F, Yellow 18C-24C/75F, Red above 24C/75F  
             </span>
           </div>
         </label>
@@ -52,7 +52,7 @@
       <div class="tooltip">
         <button id="refresh">Refresh Data</button>
         <span class = "tooltiptext">
-          Requests updated data from NOAA's National Data Buoy Center for all active buoys.
+          This button requests updated data from NOAA's National Data Buoy Center for all active buoys.
           Buoy data is only updated every hour, so continuous refreshes are unnecessary. This will
           clear the local cache where data is stored and fills it with updated data.
           Last Updated date and time can be found in upper right corner of your screen.
