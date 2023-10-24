@@ -5,36 +5,43 @@ import {handleclick} from "./canvas.mjs"
 
 let showWaves = document.getElementById("show-waves");
 let showWinds = document.getElementById("show-winds");
+let refresh = document.getElementById("refresh");
 let canvas = document.getElementById("canvas");
 
-initCanvas();
-loadBuoysToIS();
-canvasMajorCities();
+function init () {
+  initCanvas();
+  loadBuoysToIS();
+  canvasMajorCities();
+}
 
-showWaves.addEventListener('change', function() {
+showWaves.addEventListener('click', function() {
     if (this.checked) {
         drawWaves();
       } else {
-        initCanvas();
-        loadBuoysToIS();
-        canvasMajorCities();
+        init();
         if (showWinds.checked) {
             drawWinds();
         }
       }
 })
 
-showWinds.addEventListener('change', function() {
+showWinds.addEventListener('click', function() {
     if (this.checked) {
         drawWinds();
       } else {
-        initCanvas();
-        loadBuoysToIS();
-        canvasMajorCities();
+        init();
         if (showWaves.checked) {
             drawWaves();
         }
       }
 })
 
+refresh.addEventListener('click', function() {
+  localStorage.clear();
+  init();
+  showWaves.checked = false;
+  showWinds.checked = false;
+})
+
+init();
 canvas.addEventListener('click', handleclick, false);
