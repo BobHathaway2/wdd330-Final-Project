@@ -17,19 +17,47 @@
       </div>
     </header>
     <h1>The Wind and the Waves</h3>
+    <div class="subheading">
+      <p>
+        Data collected from the<br>
+        National Oceanic Atmospheric Administration's<br>
+        National Data Buoy Center<br>
+        <a href="https://www.ndbc.noaa.gov/">(NDBC Website)</a>
+      </p>
+    </div>
     <canvas id="canvas" width="720" height="360"></canvas>
     <div class="container">
       <form>
         <label class="checkbox-inline">
-          <input id="show-winds" type="checkbox" value="">Show Winds
+          <div class="tooltip">
+            <input id="show-winds" type="checkbox" value="">Show Winds
+            <span class = "tooltiptext">
+              Shows the wind as a directional arrow. Length of arrow indicates relative wind strength.
+              Color of arrow indicates air temperature. Blue less than 16C/61F, Yellow 16C-27C/81F, Red above 27C/81F 
+            </span>
+          </div>
         </label>
         <label class="checkbox-inline">
-          <input id="show-waves" type="checkbox" value="">Show Waves
+          <div class="tooltip">
+            <input id="show-waves" type="checkbox" value="">Show Waves
+            <span class = "tooltiptext">
+              Shows the wave height as a caret (^). Size of caret indicates relative wave height.
+              Color of caret indicates water temperature. Blue less than 18C/64F, Yellow 18C-24C/75F, Red above 24C/75F  
+            </span>
+          </div>
         </label>
         <label>
-          <button id="refresh">Refresh Data
         </label>
       </form>
+      <div class="tooltip">
+        <button id="refresh">Refresh Data</button>
+        <span class = "tooltiptext">
+          Requests updated data from NOAA's National Data Buoy Center for all active buoys.
+          Buoy data is only updated every hour, so continuous refreshes are unnecessary. This will
+          clear the local cache where data is stored and fills it with updated data.
+          Last Updated date and time can be found in upper right corner of your screen.
+        </span>
+      </div>
     </div>
   </body>
 </html>
