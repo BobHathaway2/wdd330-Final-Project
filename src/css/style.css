@@ -24,7 +24,7 @@ header {
 }
 footer {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   background-color: var(--light-grey);
   padding: 20px;
 }
@@ -50,7 +50,7 @@ footer {
 }
 h1 {
   margin: 1%;
-  text-align: center;
+  text-align: left;
 }
 #canvas {
   margin-right: auto;
@@ -65,10 +65,10 @@ h1 {
 }
 .subheading {
   margin: 20px;
-  text-align: center;
+  text-align: left;
 }
 .CTA p{
-  text-align: center;
+  text-align: left;
   color: green;
 }
 /* ToolTip classses */ 
