@@ -53,9 +53,9 @@ export function handleclick(event){
             let thisBuoy = getLocalStorage(buoy);
             let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
             let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
-            let xdistance = Math.sqrt(Math.pow((xofbuoy - x), 2) + Math.pow((yofbuoy - y),2));
-            if (xdistance < 50 && xdistance < closestDistance) {
-                closestDistance = xdistance;
+            let distance = Math.sqrt(Math.pow((xofbuoy - x), 2) + Math.pow((yofbuoy - y),2));
+            if (distance < 50 && distance < closestDistance) {
+                closestDistance = distance;
                 closestStation = buoy;
             }
         })

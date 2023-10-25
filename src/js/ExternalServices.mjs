@@ -1,4 +1,5 @@
 import { cleanData, getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { drawWaves, drawWinds } from "./weather.js";
 let buoys = [];
 
 let updateElement = document.getElementById("lastUpdate")
@@ -69,6 +70,8 @@ export function getBuoyData(id, lat, lon) {
                 newBuoyObject.dataTime = lastUpdateUTC;
                 setLocalStorage(id, newBuoyObject);
             }
+            drawWaves();
+            drawWinds();    
         })
 
     } catch {

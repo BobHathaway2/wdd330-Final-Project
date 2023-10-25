@@ -16,7 +16,7 @@
         <p id="lastUpdate">Last Update: </label>
       </div>
     </header>
-    <h1>The Wind and the Waves</h3>
+    <h1>The Wind and the Waves</h1>
     <div class="subheading">
       <p>
         Data collected from the<br>
@@ -25,44 +25,51 @@
         <a href="https://www.ndbc.noaa.gov/">(NDBC Website)</a>
       </p>
     </div>
-    <canvas id="canvas" width="720" height="360"></canvas>
-    <div class="container">
-      <form>
-        <label class="checkbox-inline">
-          <div class="tooltip">
-            <input id="show-winds" type="checkbox" value="">Show Winds
-            <span class = "tooltiptext">
-              Clicking this button shows the wind represented as a directional arrow. Length of arrow indicates relative wind strength.
-              Color of arrow indicates air temperature. Blue less than 16C/61F, Yellow 16C-27C/81F, Red above 27C/81F 
-            </span>
-          </div>
-        </label>
-        <label class="checkbox-inline">
-          <div class="tooltip">
-            <input id="show-waves" type="checkbox" value="">Show Waves
-            <span class = "tooltiptext">
-              Clicking this box shows the wave heights as a caret (^) on the map. The size of caret indicates relative wave height.
-              The color of caret indicates water temperature - Blue less than 18C/64F, Yellow 18C-24C/75F, Red above 24C/75F  
-            </span>
-          </div>
-        </label>
-        <label>
-        </label>
-      </form>
-      <div class="tooltip">
-        <button id="refresh">Refresh Data</button>
-        <span class = "tooltiptext">
-          This button requests updated data from NOAA's National Data Buoy Center for all active buoys.
-          Buoy data is only updated every hour, so continuous refreshes are unnecessary. This will
-          clear the local cache where data is stored and fills it with updated data.
-          Last Updated date and time can be found in upper right corner of your screen.
-        </span>
-      </div>
+    <div class="CTA">
+      <p>Click on a wind (arrow) or wave (caret) icon to see details and maps!</p>
     </div>
+    <canvas id="canvas" width="720" height="360"></canvas>
     <div id="station-popup" class="station_content">
-      <a href = "javascript:void(0)" onclick = "document.getElementById('station-popup').style.display='none';document.getElementById('fade').style.display='none'">Close</a>
+      <a href = "javascript:void(0)" onclick = "document.getElementById('station-popup').style.display='none';document.getElementById('fade').style.display='none'"></a>
       <p id="station-data"></p>
     </div>
     <div id="fade" class="black_overlay" onclick="document.getElementById('station-popup').style.display='none';document.getElementById('fade').style.display='none'"></div>
+    <footer>
+          <label class="checkbox-inline">
+            <div class="tooltip">
+              <input id="show-winds" type="checkbox" value="" checked>Show Winds
+              <span class = "tooltiptext">
+                Clicking this button shows the wind represented as a directional arrow. Length of arrow indicates relative wind strength.
+                Color of arrow indicates air temperature. Blue less than 16C/61F, Yellow 16C-27C/81F, Red above 27C/81F 
+              </span>
+            </div>
+          </label>
+          <label class="checkbox-inline">
+            <div class="tooltip">
+              <input id="show-waves" type="checkbox" value="" checked>Show Waves
+              <span class = "tooltiptext">
+                Clicking this box shows the wave heights as a caret (^) on the map. The size of caret indicates relative wave height.
+                The color of caret indicates water temperature - Blue less than 18C/64F, Yellow 18C-24C/75F, Red above 24C/75F  
+              </span>
+            </div>
+          </label>
+          <label>
+          </label>
+          <div class="tooltip">
+            <button id="clearLS">Clear Local Storage</button>
+            <span class = "tooltiptext">
+              This button will clear your local storage. Local storage is also cleared when you close this window.
+            </span>
+          </div>
+          <div class="tooltip">
+            <button id="refresh">Update Data</button>
+            <span class = "tooltiptext">
+              This button requests updated data from NOAA's National Data Buoy Center for all active buoys.
+              Buoy data is only updated every hour, so continuous refreshes are unnecessary. This will
+              clear the local cache where data is stored and fills it with updated data.
+              Last Updated date and time can be found in upper right corner of your screen.
+            </span>
+          </div>
+        </footer>
   </body>
 </html>
