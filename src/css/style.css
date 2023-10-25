@@ -52,13 +52,13 @@ h1 {
   margin: 1%;
   text-align: left;
 }
-#canvas {
+/* #canvas {
   margin-right: auto;
   margin-left: auto; 
   border-radius: 1%;
   display: flex;
   border: 0px solid var(--primary-color);
-}
+} */
 #refresh, #clearLS {
   margin: 2px;
   font-size: 12;
