@@ -7,6 +7,7 @@ let showWaves = document.getElementById("show-waves");
 let showWinds = document.getElementById("show-winds");
 let refresh = document.getElementById("refresh");
 let canvas = document.getElementById("canvas");
+let clearLS = document.getElementById("clearLS");
 
 function init () {
   loadReportingBuoys();
@@ -40,9 +41,17 @@ showWinds.addEventListener('click', function() {
 refresh.addEventListener('click', function() {
   localStorage.clear();
   init();
-  showWaves.checked = false;
-  showWinds.checked = false;
+  showWaves.checked = true;
+  showWinds.checked = true;
 })
+
+clearLS.addEventListener('click', function() {
+  localStorage.clear();
+})
+
+window.onbeforeunload = function () {
+  localStorage.clear();
+}
 
 init();
 canvas.addEventListener('click', handleclick, false);

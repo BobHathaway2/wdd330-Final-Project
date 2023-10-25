@@ -34,25 +34,25 @@ function mToft(meters) {
 export function buildInnerHtmlForPopup (station) {
   let stationData = getLocalStorage(station);
   let stationURL = 'https://www.ndbc.noaa.gov/station_page.php?station=' + station;
-  let googleURL = 'http://www.google.com/maps/place/' + stationData.lat + ',' + stationData.lon + '/@' + stationData.lat + ',' + stationData.lon + ',7z';
+  let googleURL = 'http://www.google.com/maps/place/' + stationData.lat + ',' + stationData.lon + '/@' + stationData.lat + ',' + stationData.lon + ',6z';
   let localTime = new Date(stationData.dataTime);
   let stationText = 'Station Id: ' + station + 
                     '<br> Location: latitude=' + stationData.lat + ', longitude=' + stationData.lon +
                     '<br> Time of Data: ' + localTime.toLocaleString();
   if (stationData.hasOwnProperty('WSPD')) {
-    let windSpeed = (stationData.WSPD * 1.944) + ' knots';
+    let windSpeed = Math.round((stationData.WSPD * 1.944)*100)/100 + ' knots';
     stationText += '<br> Wind Speed: ' + windSpeed;
   }
   if (stationData.hasOwnProperty('ATMP')) {
-    let airTemp = CtoF(stationData.ATMP) + 'F/' + stationData.ATMP + 'C';
+    let airTemp = Math.round(CtoF(stationData.ATMP)*100)/100 + 'F/' + stationData.ATMP + 'C';
     stationText += '<br> Air Temp: ' + airTemp;
   }
   if (stationData.hasOwnProperty('WTMP')){
-    let waterTemp = CtoF(stationData.WTMP) + 'F/' + stationData.WTMP + 'C';
+    let waterTemp = Math.round(CtoF(stationData.WTMP)*100)/100 + 'F/' + stationData.WTMP + 'C';
     stationText += '<br> Water Temp: ' + waterTemp
   }
   if (stationData.hasOwnProperty('WVHT')){
-    let waveHeight = mToft(stationData.WVHT) + 'ft/' + stationData.WVHT + 'm';
+    let waveHeight = Math.round(mToft(stationData.WVHT)*100)/100 + 'ft/' + stationData.WVHT + 'm';
     stationText += '<br> Wave Height: ' + waveHeight;
   }
   stationText +=  '<br> <a href="' + stationURL + '" rel="noopener noreferrer"  target="_blank">NOAA NDBC Link</a> <br>' +
