@@ -54,7 +54,7 @@ export function handleclick(event){
             let xofbuoy = xoffset + (thisBuoy.lon * scalefactor);
             let yofbuoy = yoffset - (thisBuoy.lat * scalefactor);
             let distance = Math.sqrt(Math.pow((xofbuoy - x), 2) + Math.pow((yofbuoy - y),2));
-            if (distance < 5 && distance < closestDistance) {
+            if (distance < 10 && distance < closestDistance) {
                 closestDistance = distance;
                 closestStation = buoy;
             }
@@ -105,18 +105,18 @@ function lineToAngle(ctx, x1, y1, length, angle) {
   }
   
   export function draw_wind(lat, lon, length, azm, color="black") {
+    ctx.strokeStyle = color;
     let x = lonToX(lon);
     let y = latToY(lat);
     var pos = draw_arrow(ctx, x, y, length*2, azm);
   
-    ctx.strokeStyle = color;
   }
 
   export function draw_wave(lat, lon, height, color="black") {
+    ctx.strokeStyle = color;
     let x = lonToX(lon);
     let y = latToY(lat);
     height = height*5;
     var pos = lineToAngle(ctx, x, y, height, 20);
     lineToAngle(ctx, pos.x, pos.y, height, 160);
-    ctx.strokeStyle = color;
   }
