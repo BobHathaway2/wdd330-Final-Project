@@ -41,7 +41,8 @@ showWinds.addEventListener('click', function() {
 refresh.addEventListener('click', function() {
   localStorage.clear();
   init();
-
+  showWaves.checked = false;
+  showWinds.checked = false;
 })
 
 clearLS.addEventListener('click', function() {
